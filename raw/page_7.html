@@ -1,0 +1,328 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>衛生福利部社會及家庭署保母人員登記管理資訊系統</title>
+<link href="css/01.css" rel="stylesheet" type="text/css" />
+
+<script language=JavaScript src="calender/calendar.js"></script>
+<script language=JavaScript src="calender/wcalendar.js"></script>
+<script language=JavaScript src="calender/calendar-en.js"></script>
+<link href="calender/calendar-brown.css" rel="stylesheet" type="text/css" />
+<script language=JavaScript src="calender/jquery-1.12.1.js"></script>
+    <style type="text/css">
+        .input1{
+            background:url(img/blue/btn_bg.gif) top left no-repeat #1352e5;
+        }
+
+        body{
+            margin: 5px;
+        }
+
+        .textAlignCenter{
+            text-align: center;
+        }
+
+        .p5{
+            padding: 0 5px;
+        }
+    </style>
+
+<script type="text/javascript"  >
+ 
+ 	//下拉縣
+ 	function find_cit(citID, citVal , setCit )  {
+ 		//var urls = "../js_molde/address_json_db.jsp?keyNames=00000&p=0" ;
+ 		var urls = "js_molde/address_json_db.jsp" ;
+ 		
+ 		var data="";
+ 		//alert("address_json.js.find_cit.zipID="+ zipID+":citID="+citID+":twnID="+twnID+":vilID="+vilID+":citVal="+citVal)	;	
+ 		if (setCit!="") {
+ 			//urls +="&amp;c="+setCit ;
+ 			data= {keyNames:00000,p:0,c:setCit};
+ 			
+ 		} else {
+            data = {keyNames: 00000, p: 0};
+        }
+
+ 		//alert("address_json.js.find_cit.urls="+ urls)	;	
+ 		$.ajax({ type:'post',  url:urls , data:data, dataType:'json',	 async:'false',
+ 		success: function (datas) {   
+ 			//alert("find_cit.success");
+ 			find_cit_Json( citID,  citVal , datas   ) ;
+ 		},  error: function (response, status, xhr) { 
+ 			 //alert("find_cit.status="+status);
+ 		}  });		
+ 	}
+
+ 	 	function find_cit_Json( citID , citVal , datas   )	{
+ 	 		//alert("address_json.js.find_cit_Json.datas="+ datas.length)	;
+ 	 		//alert(data);
+ 			  $.each(datas, function(i, field){  
+ 			  		  var ck="";
+ 			  			if (citVal==field.no){  ck=" selected " ;}
+ 			  	 		$("#"+citID).append($('<option value=\"'+field.no+'\" '+ck+'>'+field.name+'</option>')); 
+ 			  	   });
+ 		 }
+
+</script>	 
+
+
+</head>
+
+<body >   
+
+
+
+
+<div class="content">
+<div class="box" style="text-align:center">
+  <form id="form1" name="form1" method="post" action="organtlist2.jsp?OWASP_CSRFTOKEN=GT3D-W0NM-1C8S-4T5S-367O-4LFM-S3YI-1UOQ" style="margin:0px;">
+  &nbsp;&nbsp;&nbsp;&nbsp;
+      <label>
+          <span class="p5">縣市</span>
+      <select name="MEM_REGION" id="MEM_REGION">
+          </select></label>
+      <label for="qidname" ><span class="p5">罰鍰對象</span>
+            <input name="qidname" type="text" class="input2" id="qidname" value="" />
+      </label>
+      <span class="p5">裁罰日期</span>
+      <label for="qstart_date"  class="hidden">起始日期</label>
+      <input name="qstart_date" type="text" class="input2" id="qstart_date" value=""  maxlength="10"  style="ime-mode:disabled" />
+      <input name="button" type="button" class="input1" id="button" value=":::"  onclick="return showCalendar('qstart_date', 'yyyy/mm/dd', 'false');" onkeypress="return showCalendar('qstart_date', 'yyyy/mm/dd', 'false');" />
+      (填寫範例:2017/01/01)&nbsp;&nbsp;~
+      <label for="qend_date"  class="hidden" >迄止日期</label>
+      <input name="qend_date" type="text" class="input2" id="qend_date" value=""   maxlength="10"  style="ime-mode:disabled"   />
+
+      <input name="button2" type="button" class="input1" id="button2" value=":::"   onclick="return showCalendar('qend_date', 'yyyy/mm/dd', 'false');" onkeypress="return showCalendar('qend_date', 'yyyy/mm/dd', 'false');" />
+      (填寫範例:2017/01/01)
+
+
+          <input name="button3" type="submit" class="input1" id="button3" value="搜尋"   style="font-size:12pt;" />
+  </form>
+</div><!--box end-->
+<div class="box">
+  <table width="100%" border="1" cellspacing="0" cellpadding="8">
+      <tr>
+          <th rowspan="2"  width="8%"  align="center"><h4>裁罰日期</h4></th>
+          <th rowspan="2"  width="6%"  align="center"><h4>縣市</h4></th>
+          <th colspan="3" align="center"><h4>罰鍰對象</h4></th>
+          <th rowspan="2"  width="15%"  align="center"><h4>違法事由</h4></th>
+          <th rowspan="2"  width="15%"  align="center"><h4>違反法條</h4></th>
+          <th rowspan="2"  width="15%"  align="center"><h4>處分內容</h4></th>
+      </tr>
+
+      <tr>
+          <th width="6%"  align="center"><h4>托育人員<br></br>姓名</h4></th>
+          <th width="20%"  align="center"><h4>托嬰中心名稱</h4></th>
+          <th width="6%"  align="center"><h4>負責人<br>姓名</h4></th>
+
+       </tr>
+    
+
+        <tr>
+           <td class="textAlignCenter" >1080923<br/></td>
+           <td class="textAlignCenter" >桃園市<br/></td>
+
+           <td class="textAlignCenter" ><br/></td>
+           <td class="textAlignCenter" >桃園市私立家碩托嬰中心<br/></td>
+           <td class="textAlignCenter" >李慧華<br/></td>
+
+            <td class="textAlignCenter" >經查該中心主任未實際專任專職，又未依限完成改善。<br/></td>
+            <td class="textAlignCenter" >兒少法第83條第一項第五款、兒童及少年福利機構設置標準第11條規定<br/></td>
+            <td class="textAlignCenter" >罰鍰3萬元<br/></td>
+    </tr>
+    
+
+        <tr>
+           <td class="textAlignCenter" >1071127<br/></td>
+           <td class="textAlignCenter" >桃園市<br/></td>
+
+           <td class="textAlignCenter" ><br/></td>
+           <td class="textAlignCenter" >未立案幼兒園<br/></td>
+           <td class="textAlignCenter" >翁金霞<br/></td>
+
+            <td class="textAlignCenter" >未立案幼兒園及收托0-2歲幼兒4名。<br/></td>
+            <td class="textAlignCenter" >1.幼教法第8條2.兒少法第82條<br/></td>
+            <td class="textAlignCenter" >罰鍰6萬元，並公布名稱<br/></td>
+    </tr>
+    
+
+        <tr>
+           <td class="textAlignCenter" >1070925<br/></td>
+           <td class="textAlignCenter" >桃園市<br/></td>
+
+           <td class="textAlignCenter" >朱國瑛<br/></td>
+           <td class="textAlignCenter" ><br/></td>
+           <td class="textAlignCenter" ><br/></td>
+
+            <td class="textAlignCenter" >將幼兒拋摔致腦部受傷<br/></td>
+            <td class="textAlignCenter" >兒少法49條1款2項<br/></td>
+            <td class="textAlignCenter" >罰鍰6萬元，並公布姓名<br/></td>
+    </tr>
+    
+
+        <tr>
+           <td class="textAlignCenter" >1070920<br/></td>
+           <td class="textAlignCenter" >桃園市<br/></td>
+
+           <td class="textAlignCenter" ><br/></td>
+           <td class="textAlignCenter" ><br/></td>
+           <td class="textAlignCenter" >徐天成<br/></td>
+
+            <td class="textAlignCenter" >未立案<br/></td>
+            <td class="textAlignCenter" >兒少法第82條<br/></td>
+            <td class="textAlignCenter" >罰鍰6萬元，並公布名稱<br/></td>
+    </tr>
+    
+
+        <tr>
+           <td class="textAlignCenter" >1070515<br/></td>
+           <td class="textAlignCenter" >桃園市<br/></td>
+
+           <td class="textAlignCenter" ><br/></td>
+           <td class="textAlignCenter" >桃園市私立南丁格爾托嬰中心<br/></td>
+           <td class="textAlignCenter" >王香瓖<br/></td>
+
+            <td class="textAlignCenter" >主任未專任。<br/></td>
+            <td class="textAlignCenter" >兒少法第83條兒少機構設置標準第11條<br/></td>
+            <td class="textAlignCenter" >罰鍰3萬元<br/></td>
+    </tr>
+    
+
+        <tr>
+           <td class="textAlignCenter" >1061211<br/></td>
+           <td class="textAlignCenter" >桃園市<br/></td>
+
+           <td class="textAlignCenter" ><br/></td>
+           <td class="textAlignCenter" >桃園市私立鵝媽媽托嬰中心<br/></td>
+           <td class="textAlignCenter" >李品靜<br/></td>
+
+            <td class="textAlignCenter" >主任未專任。<br/></td>
+            <td class="textAlignCenter" >兒少法第83條兒少機構設置標準第11條<br/></td>
+            <td class="textAlignCenter" >罰鍰3萬元<br/></td>
+    </tr>
+    
+
+        <tr>
+           <td class="textAlignCenter" >1061201<br/></td>
+           <td class="textAlignCenter" >桃園市<br/></td>
+
+           <td class="textAlignCenter" ><br/></td>
+           <td class="textAlignCenter" ><br/></td>
+           <td class="textAlignCenter" >鍾舒婷<br/></td>
+
+            <td class="textAlignCenter" >未立案<br/></td>
+            <td class="textAlignCenter" >兒少法第82條<br/></td>
+            <td class="textAlignCenter" >罰鍰6萬元，並公布名稱<br/></td>
+    </tr>
+    
+
+        <tr>
+           <td class="textAlignCenter" >1061108<br/></td>
+           <td class="textAlignCenter" >桃園市<br/></td>
+
+           <td class="textAlignCenter" ><br/></td>
+           <td class="textAlignCenter" ><br/></td>
+           <td class="textAlignCenter" >洪寶媛<br/></td>
+
+            <td class="textAlignCenter" >未立案<br/></td>
+            <td class="textAlignCenter" >兒少法第82條<br/></td>
+            <td class="textAlignCenter" >罰鍰6萬元，並公布名稱<br/></td>
+    </tr>
+    
+
+        <tr>
+           <td class="textAlignCenter" >1061024<br/></td>
+           <td class="textAlignCenter" >桃園市<br/></td>
+
+           <td class="textAlignCenter" ><br/></td>
+           <td class="textAlignCenter" ><br/></td>
+           <td class="textAlignCenter" >江存正<br/></td>
+
+            <td class="textAlignCenter" >未立案<br/></td>
+            <td class="textAlignCenter" >兒少法第82條<br/></td>
+            <td class="textAlignCenter" >罰鍰6萬元，並公布名稱<br/></td>
+    </tr>
+    
+
+        <tr>
+           <td class="textAlignCenter" >1060811<br/></td>
+           <td class="textAlignCenter" >桃園市<br/></td>
+
+           <td class="textAlignCenter" ><br/></td>
+           <td class="textAlignCenter" >桃園市私立茱莉亞托嬰中心<br/></td>
+           <td class="textAlignCenter" >黃千美<br/></td>
+
+            <td class="textAlignCenter" >1.師生比不符<br/></td>
+            <td class="textAlignCenter" >兒少法第83條兒少機構設置標準第11條<br/></td>
+            <td class="textAlignCenter" >罰鍰3萬元<br/></td>
+    </tr>
+    
+    
+
+    </table>
+</div><!--box end-->
+<div class="box textAlignCenter"><div class="page">
+  
+  <a href="/organtlist2.jsp?offset=50">上一頁</a>
+  
+  <a href="/organtlist2.jsp?offset=010">2</a> | <a href="/organtlist2.jsp?offset=020">3</a> | <a href="/organtlist2.jsp?offset=030">4</a> | <a href="/organtlist2.jsp?offset=040">5</a> | <a href="/organtlist2.jsp?offset=050">6</a> | <b>7</b> | <a href="/organtlist2.jsp?offset=070">8</a> | <a href="/organtlist2.jsp?offset=080">9</a> | <a href="/organtlist2.jsp?offset=090">10</a> | <a href="/organtlist2.jsp?offset=0100">11</a>
+  
+  <a href="/organtlist2.jsp?offset=70">下一頁</a>
+  
+</div>
+</div><!--box end-->
+</div><!--content end-->
+
+
+<script type="text/javascript"  >
+	find_cit( 'MEM_REGION','', '') ;
+</script> 
+
+
+</body>
+</html>
+ 
+                    

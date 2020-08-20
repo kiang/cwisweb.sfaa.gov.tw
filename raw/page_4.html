@@ -1,0 +1,328 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>衛生福利部社會及家庭署保母人員登記管理資訊系統</title>
+<link href="css/01.css" rel="stylesheet" type="text/css" />
+
+<script language=JavaScript src="calender/calendar.js"></script>
+<script language=JavaScript src="calender/wcalendar.js"></script>
+<script language=JavaScript src="calender/calendar-en.js"></script>
+<link href="calender/calendar-brown.css" rel="stylesheet" type="text/css" />
+<script language=JavaScript src="calender/jquery-1.12.1.js"></script>
+    <style type="text/css">
+        .input1{
+            background:url(img/blue/btn_bg.gif) top left no-repeat #1352e5;
+        }
+
+        body{
+            margin: 5px;
+        }
+
+        .textAlignCenter{
+            text-align: center;
+        }
+
+        .p5{
+            padding: 0 5px;
+        }
+    </style>
+
+<script type="text/javascript"  >
+ 
+ 	//下拉縣
+ 	function find_cit(citID, citVal , setCit )  {
+ 		//var urls = "../js_molde/address_json_db.jsp?keyNames=00000&p=0" ;
+ 		var urls = "js_molde/address_json_db.jsp" ;
+ 		
+ 		var data="";
+ 		//alert("address_json.js.find_cit.zipID="+ zipID+":citID="+citID+":twnID="+twnID+":vilID="+vilID+":citVal="+citVal)	;	
+ 		if (setCit!="") {
+ 			//urls +="&amp;c="+setCit ;
+ 			data= {keyNames:00000,p:0,c:setCit};
+ 			
+ 		} else {
+            data = {keyNames: 00000, p: 0};
+        }
+
+ 		//alert("address_json.js.find_cit.urls="+ urls)	;	
+ 		$.ajax({ type:'post',  url:urls , data:data, dataType:'json',	 async:'false',
+ 		success: function (datas) {   
+ 			//alert("find_cit.success");
+ 			find_cit_Json( citID,  citVal , datas   ) ;
+ 		},  error: function (response, status, xhr) { 
+ 			 //alert("find_cit.status="+status);
+ 		}  });		
+ 	}
+
+ 	 	function find_cit_Json( citID , citVal , datas   )	{
+ 	 		//alert("address_json.js.find_cit_Json.datas="+ datas.length)	;
+ 	 		//alert(data);
+ 			  $.each(datas, function(i, field){  
+ 			  		  var ck="";
+ 			  			if (citVal==field.no){  ck=" selected " ;}
+ 			  	 		$("#"+citID).append($('<option value=\"'+field.no+'\" '+ck+'>'+field.name+'</option>')); 
+ 			  	   });
+ 		 }
+
+</script>	 
+
+
+</head>
+
+<body >   
+
+
+
+
+<div class="content">
+<div class="box" style="text-align:center">
+  <form id="form1" name="form1" method="post" action="organtlist2.jsp?OWASP_CSRFTOKEN=GT3D-W0NM-1C8S-4T5S-367O-4LFM-S3YI-1UOQ" style="margin:0px;">
+  &nbsp;&nbsp;&nbsp;&nbsp;
+      <label>
+          <span class="p5">縣市</span>
+      <select name="MEM_REGION" id="MEM_REGION">
+          </select></label>
+      <label for="qidname" ><span class="p5">罰鍰對象</span>
+            <input name="qidname" type="text" class="input2" id="qidname" value="" />
+      </label>
+      <span class="p5">裁罰日期</span>
+      <label for="qstart_date"  class="hidden">起始日期</label>
+      <input name="qstart_date" type="text" class="input2" id="qstart_date" value=""  maxlength="10"  style="ime-mode:disabled" />
+      <input name="button" type="button" class="input1" id="button" value=":::"  onclick="return showCalendar('qstart_date', 'yyyy/mm/dd', 'false');" onkeypress="return showCalendar('qstart_date', 'yyyy/mm/dd', 'false');" />
+      (填寫範例:2017/01/01)&nbsp;&nbsp;~
+      <label for="qend_date"  class="hidden" >迄止日期</label>
+      <input name="qend_date" type="text" class="input2" id="qend_date" value=""   maxlength="10"  style="ime-mode:disabled"   />
+
+      <input name="button2" type="button" class="input1" id="button2" value=":::"   onclick="return showCalendar('qend_date', 'yyyy/mm/dd', 'false');" onkeypress="return showCalendar('qend_date', 'yyyy/mm/dd', 'false');" />
+      (填寫範例:2017/01/01)
+
+
+          <input name="button3" type="submit" class="input1" id="button3" value="搜尋"   style="font-size:12pt;" />
+  </form>
+</div><!--box end-->
+<div class="box">
+  <table width="100%" border="1" cellspacing="0" cellpadding="8">
+      <tr>
+          <th rowspan="2"  width="8%"  align="center"><h4>裁罰日期</h4></th>
+          <th rowspan="2"  width="6%"  align="center"><h4>縣市</h4></th>
+          <th colspan="3" align="center"><h4>罰鍰對象</h4></th>
+          <th rowspan="2"  width="15%"  align="center"><h4>違法事由</h4></th>
+          <th rowspan="2"  width="15%"  align="center"><h4>違反法條</h4></th>
+          <th rowspan="2"  width="15%"  align="center"><h4>處分內容</h4></th>
+      </tr>
+
+      <tr>
+          <th width="6%"  align="center"><h4>托育人員<br></br>姓名</h4></th>
+          <th width="20%"  align="center"><h4>托嬰中心名稱</h4></th>
+          <th width="6%"  align="center"><h4>負責人<br>姓名</h4></th>
+
+       </tr>
+    
+
+        <tr>
+           <td class="textAlignCenter" >1080416<br/></td>
+           <td class="textAlignCenter" >臺北市<br/></td>
+
+           <td class="textAlignCenter" >廖筱萍<br/></td>
+           <td class="textAlignCenter" ><br/></td>
+           <td class="textAlignCenter" ><br/></td>
+
+            <td class="textAlignCenter" >午休時間為哄幼兒入睡，用身體壓制身體阻止掙扎，時間約18分鐘，幼兒睡覺期間臉朝下未查看其有無呼吸心跳，顯未善盡照顧之責。<br/></td>
+            <td class="textAlignCenter" >兒少法第49條第15款<br/></td>
+            <td class="textAlignCenter" >罰鍰14萬元並公告姓名。<br/></td>
+    </tr>
+    
+
+        <tr>
+           <td class="textAlignCenter" >1080416<br/></td>
+           <td class="textAlignCenter" >臺北市<br/></td>
+
+           <td class="textAlignCenter" >徐育質<br/></td>
+           <td class="textAlignCenter" ><br/></td>
+           <td class="textAlignCenter" ><br/></td>
+
+            <td class="textAlignCenter" >抓起幼兒雙手放回床墊時，因幼兒與床墊有幾公距離，致幼兒摔地。幼兒在軟墊上，徐君直接拉走軟墊，致其滾落地面。該中心多名托育人員對幼兒不當對待，徐君身為中心主任知悉而未制止。<br/></td>
+            <td class="textAlignCenter" >兒少法第49條第15款<br/></td>
+            <td class="textAlignCenter" >罰鍰14萬元並公告姓名。<br/></td>
+    </tr>
+    
+
+        <tr>
+           <td class="textAlignCenter" >1080416<br/></td>
+           <td class="textAlignCenter" >臺北市<br/></td>
+
+           <td class="textAlignCenter" >蘇昭伶<br/></td>
+           <td class="textAlignCenter" ><br/></td>
+           <td class="textAlignCenter" ><br/></td>
+
+            <td class="textAlignCenter" >壓打幼兒頭及壓制其身體，幼兒邊哭邊爬，又將幼童往後推，讓幼童大哭。用防踢被蓋住幼兒頭部且用手腳固定不讓幼童扭動、餵食幼童時讓其坐在餐椅上並綁住其雙手、單手拉幼童手臂拖行等。<br/></td>
+            <td class="textAlignCenter" >兒少法第49條第15款<br/></td>
+            <td class="textAlignCenter" >罰鍰14萬元並公告姓名。<br/></td>
+    </tr>
+    
+
+        <tr>
+           <td class="textAlignCenter" >1080416<br/></td>
+           <td class="textAlignCenter" >臺北市<br/></td>
+
+           <td class="textAlignCenter" >翁銀霞<br/></td>
+           <td class="textAlignCenter" ><br/></td>
+           <td class="textAlignCenter" ><br/></td>
+
+            <td class="textAlignCenter" >用防踢被蓋住幼兒頭部，讓幼兒入睡，幼童掙扎時間約28秒，仍矇住幼童臉及用腳壓制幼童，時間約1分半。粗魯(暴)把幼童放在軟墊上、推另一名幼童到地上、壓幼童的頭到地上、幼童趴著。<br/></td>
+            <td class="textAlignCenter" >兒少法第49條第15款<br/></td>
+            <td class="textAlignCenter" >罰鍰12萬元並公告姓名。<br/></td>
+    </tr>
+    
+
+        <tr>
+           <td class="textAlignCenter" >1080415<br/></td>
+           <td class="textAlignCenter" >臺北市<br/></td>
+
+           <td class="textAlignCenter" ><br/></td>
+           <td class="textAlignCenter" >臺北市私立我們的內湖托嬰中心<br/></td>
+           <td class="textAlignCenter" >黃祥官<br/></td>
+
+            <td class="textAlignCenter" >聘僱多位不適當人員，經常性陷兒童於不安全情境及環境，嚴重妨礙兒童身心發展，中心督導不周。<br/></td>
+            <td class="textAlignCenter" >違反兒童及少年福利與權益保障法83條第1款<br/></td>
+            <td class="textAlignCenter" >罰鍰30萬元並公告姓名<br/></td>
+    </tr>
+    
+
+        <tr>
+           <td class="textAlignCenter" >1080318<br/></td>
+           <td class="textAlignCenter" >臺北市<br/></td>
+
+           <td class="textAlignCenter" >蘇郁珊<br/></td>
+           <td class="textAlignCenter" ><br/></td>
+           <td class="textAlignCenter" ><br/></td>
+
+            <td class="textAlignCenter" >蘇君受男童父母之託，收費照顧男童，於107年4月13日、4月14日在其家中為當時4個月大男童洗澡時，不慎致男童臉部瘀青及背部、左腿、左臀、左大小腿及足部等，共13面積2至3度燒燙傷，住院於燙傷中心加護病房，並續接受清創手術治療、持續追蹤及接受復健治療半年。<br/></td>
+            <td class="textAlignCenter" >兒少法第49條第15款<br/></td>
+            <td class="textAlignCenter" >公告姓名。<br/></td>
+    </tr>
+    
+
+        <tr>
+           <td class="textAlignCenter" >1080213<br/></td>
+           <td class="textAlignCenter" >臺北市<br/></td>
+
+           <td class="textAlignCenter" >闕婉晴<br/></td>
+           <td class="textAlignCenter" ><br/></td>
+           <td class="textAlignCenter" ><br/></td>
+
+            <td class="textAlignCenter" >徒手拍打、重摔嬰幼兒、摀住臉部餵奶等不當行為，過程中造成該名嬰兒右手脫臼。<br/></td>
+            <td class="textAlignCenter" >兒少法第49條第15款<br/></td>
+            <td class="textAlignCenter" >罰鍰12萬元並公告姓名。<br/></td>
+    </tr>
+    
+
+        <tr>
+           <td class="textAlignCenter" >1080115<br/></td>
+           <td class="textAlignCenter" >臺北市<br/></td>
+
+           <td class="textAlignCenter" ><br/></td>
+           <td class="textAlignCenter" >無招牌<br/></td>
+           <td class="textAlignCenter" >徐雪梅<br/></td>
+
+            <td class="textAlignCenter" >未立案收托<br/></td>
+            <td class="textAlignCenter" >兒少法第82條第1項<br/></td>
+            <td class="textAlignCenter" >罰鍰6萬元並公告姓名<br/></td>
+    </tr>
+    
+
+        <tr>
+           <td class="textAlignCenter" >1080108<br/></td>
+           <td class="textAlignCenter" >臺北市<br/></td>
+
+           <td class="textAlignCenter" >秦嘉臻<br/></td>
+           <td class="textAlignCenter" ><br/></td>
+           <td class="textAlignCenter" ><br/></td>
+
+            <td class="textAlignCenter" >托育人員責打幼。<br/></td>
+            <td class="textAlignCenter" >兒少法第49條第15款<br/></td>
+            <td class="textAlignCenter" >罰鍰8萬元並公告姓名。<br/></td>
+    </tr>
+    
+
+        <tr>
+           <td class="textAlignCenter" >1061226<br/></td>
+           <td class="textAlignCenter" >臺北市<br/></td>
+
+           <td class="textAlignCenter" ><br/></td>
+           <td class="textAlignCenter" >臺北市私立愛寶貝內湖園<br/></td>
+           <td class="textAlignCenter" >陳燿方<br/></td>
+
+            <td class="textAlignCenter" >未立案收托<br/></td>
+            <td class="textAlignCenter" >兒少法第82條第1項<br/></td>
+            <td class="textAlignCenter" >罰鍰6萬元並公告姓名<br/></td>
+    </tr>
+    
+    
+
+    </table>
+</div><!--box end-->
+<div class="box textAlignCenter"><div class="page">
+  
+  <a href="/organtlist2.jsp?offset=20">上一頁</a>
+  
+  <a href="/organtlist2.jsp?offset=00">1</a> | <a href="/organtlist2.jsp?offset=010">2</a> | <a href="/organtlist2.jsp?offset=020">3</a> | <b>4</b> | <a href="/organtlist2.jsp?offset=040">5</a> | <a href="/organtlist2.jsp?offset=050">6</a> | <a href="/organtlist2.jsp?offset=060">7</a> | <a href="/organtlist2.jsp?offset=070">8</a> | <a href="/organtlist2.jsp?offset=080">9</a> | <a href="/organtlist2.jsp?offset=090">10</a>
+  
+  <a href="/organtlist2.jsp?offset=40">下一頁</a>
+  
+</div>
+</div><!--box end-->
+</div><!--content end-->
+
+
+<script type="text/javascript"  >
+	find_cit( 'MEM_REGION','', '') ;
+</script> 
+
+
+</body>
+</html>
+ 
+                    
