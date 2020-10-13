@@ -1,5 +1,5 @@
 <?php
-$rootPath = __DIR__;
+$rootPath = dirname(__DIR__);
 
 $now = date('Y-m-d H:i:s');
 
