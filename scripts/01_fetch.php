@@ -25,10 +25,8 @@ $fhPool = [];
 while(false === $finalPage) {
     $rawFile = $rawPath . '/page_' . $page . '.html';
     $offset = ($page - 1) * 10;
-    if(!file_exists($rawFile)) {
-        $client->request('GET', 'https://cwisweb.sfaa.gov.tw/organtlist2.jsp?offset=' . $offset);
-        file_put_contents($rawFile, $client->getResponse()->getContent());
-    }
+    $client->request('GET', 'https://cwisweb.sfaa.gov.tw/organtlist2.jsp?offset=' . $offset);
+    file_put_contents($rawFile, $client->getResponse()->getContent());
     $pageContent = file_get_contents($rawFile);
     $lines = explode('</tr>', $pageContent);
     foreach($lines AS $line) {
